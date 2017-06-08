@@ -123,13 +123,17 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
    <br>
    <%LoginBean currentUser = (LoginBean)(session.getAttribute("currentSessionUser")); %>
    <!--  <= currentUser.getEmpID() %> -->
-   
+   <% 
+   String emp = (String) session.getAttribute("empid");
+   %>
 <table align=center style="width:80%">
+<form method = "post" action = "TimeSheetServlet">
   <tr align = center>
     <td>Date :</td>
-    <td><input type="text" name="date"  placeholder = "dd/mm/yyyy"></td> 
+    <td><input type="date" name="date"  placeholder = "yyyy/mm/dd"></td> 
 	<td>Project ID :</td>
-    <td><input type="text" name="project_id"  placeholder = "TUP00**"></td> 
+    <td><input type="text" name="project_id"  placeholder = "TUP00**" ></td> 
+    <td><input type = "hidden" name = "empid" value = "<%=emp%>"></td>
    
 </tr>
 </table>
@@ -146,14 +150,101 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <datalist id="1">
     <option value="Designing">
     <option value="Coding"> 
-    <option value="Testing"> 
+    <option value="Testing">
+    <option value="Meeting">
+    <option value="Training"> 
   </datalist>
   </td>
   <td>
-    <input type="text" name="hours"  placeholder = "00:00">
+    <input type="text" name="hours1"  placeholder = "00:00">
   </td>
   <td>
-    <input type="text" name="description">
+    <input type="text" name="description1">
+  </td>
+  </tr>
+  <tr align = center>
+  <td><input list="2" name="2">
+  <datalist id="2">
+    <option value="Designing">
+    <option value="Coding"> 
+    <option value="Testing">
+    <option value="Meeting">
+    <option value="Training"> 
+  </datalist>
+  </td>
+  <td>
+    <input type="text" name="hours2"  placeholder = "00:00">
+  </td>
+  <td>
+    <input type="text" name="description2">
+  </td>
+  </tr>
+  <tr align = center>
+  <td><input list="3" name="3">
+  <datalist id="3">
+    <option value="Designing">
+    <option value="Coding"> 
+    <option value="Testing">
+    <option value="Meeting">
+    <option value="Training"> 
+  </datalist>
+  </td>
+  <td>
+    <input type="text" name="hours3"  placeholder = "00:00">
+  </td>
+  <td>
+    <input type="text" name="description3">
+  </td>
+  </tr>
+  <tr align = center>
+  <td><input list="4" name="4">
+  <datalist id="4">
+    <option value="Designing">
+    <option value="Coding"> 
+    <option value="Testing">
+    <option value="Meeting">
+    <option value="Training"> 
+  </datalist>
+  </td>
+  <td>
+    <input type="text" name="hours4"  placeholder = "00:00">
+  </td>
+  <td>
+    <input type="text" name="description4">
+  </td>
+  </tr>
+  <tr align = center>
+  <td><input list="5" name="5">
+  <datalist id="5">
+    <option value="Designing">
+    <option value="Coding"> 
+    <option value="Testing">
+    <option value="Meeting">
+    <option value="Training"> 
+  </datalist>
+  </td>
+  <td>
+    <input type="text" name="hours5"  placeholder = "00:00">
+  </td>
+  <td>
+    <input type="text" name="description5">
+  </td>
+  </tr>
+  <tr align = center>
+  <td><input list="6" name="6">
+  <datalist id="6">
+    <option value="Designing">
+    <option value="Coding"> 
+    <option value="Testing">
+    <option value="Meeting">
+    <option value="Training"> 
+  </datalist>
+  </td>
+  <td>
+    <input type="text" name="hours6"  placeholder = "00:00">
+  </td>
+  <td>
+    <input type="text" name="description6">
   </td>
   </tr>
   <br>
@@ -161,6 +252,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 </table>
 <br>
 <center><button type="submit" align = center class="w3-button w3-black ">Submit</button> </center>
+</form>
 <br>
   </div>
 </div>
@@ -171,7 +263,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <div class="w3-modal-content w3-animate-zoom">
     <div class="w3-container w3-black w3-display-container">
       <span onclick="document.getElementById('Leave Management Pop').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
-      <h1>Leave Managemenet</h1>
+      <h1>Leave Management</h1>
     </div>
    <br>
    
@@ -208,6 +300,10 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 <tr>
    <td>Reason	 :</td>
    <td><input type="text" name="Reason"  placeholder = "">  </td>
+</tr>
+
+<tr>
+<td><input type = "hidden" name = "empid" value = "<%=emp%>"></td>
 </tr>
 
 </table>
@@ -301,9 +397,24 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
     <div class="w3-container w3-black w3-display-container">
       <span onclick="document.getElementById('PayRoll Pop').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
       <h1>PayRoll</h1>
+      
     </div>
+
+    <table >
+					
+					<c:forEach var="row" items="${result.rows}">
+						<tr>
+							<td><h1><c:out value="${row.emp_name}" /></h1></td>
+						</tr>
+					</c:forEach>
+				</table>
+      
+      
+   <sql:query dataSource = "${dbSource}" var = "result" >
+           select emp_name , designation , address , email , contact , leaves , salary from employee where emp_id = "<%= session.getAttribute("empid") %>";
+      </sql:query>
+      
    <br>
-<center>CONGRATULATIONS.!</center>
 <br>
 </div>
 </div>    
@@ -324,7 +435,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   
   <!-- End Page Container -->
 </div>
-
+<br><br><br><br><br><br><br><br><br>
 <footer class="w3-container w3-black w3-center w3-margin-top">
   <i class="fa fa-facebook-official w3-hover-opacity"></i>
   <i class="fa fa-instagram w3-hover-opacity"></i>
