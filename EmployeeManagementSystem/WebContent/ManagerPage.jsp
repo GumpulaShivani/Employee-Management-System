@@ -162,7 +162,14 @@ html, body, h1, h2, h3, h4, h5, h6 {
 								class="w3-button w3-display-topright w3-large">x</span>
 							<h1>Time Sheet</h1>
 						</div>
+						<%LoginBean currentUser = (LoginBean)(session.getAttribute("currentSessionUser")); %>
+   <!--  <= currentUser.getEmpID() %> -->
+   <% 
+   String emp = (String) session.getAttribute("empid");
+   %>
 						<br>
+						<form method = "post" action = "TimeSheetServlet">
+						
 						<table align=center style="width: 80%">
 							<tr align=center>
 								<td>Date :</td>
@@ -170,7 +177,8 @@ html, body, h1, h2, h3, h4, h5, h6 {
 								<td>Project ID :</td>
 								<td><input type="text" name="project_id"
 									placeholder="TUP00**"></td>
-
+								<td><input type = "hidden" name = "empid" value = "<%=emp%>"></td>
+   
 							</tr>
 						</table>
 
@@ -290,6 +298,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 						<center>
 							<button type="submit" align=center class="w3-button w3-black ">Submit</button>
 						</center>
+						</form>
 						<br>
 					</div>
 				</div>
@@ -302,7 +311,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 						<span
 							onclick="document.getElementById('Leave Management Pop').style.display='none'"
 							class="w3-button w3-display-topright w3-large">x</span>
-						<h1>Leave Managemenet</h1>
+						<h1>Leave Management</h1>
 					</div>
 					<br>
 					<center>
@@ -319,6 +328,8 @@ html, body, h1, h2, h3, h4, h5, h6 {
 					</center>
 
 
+
+
 					<div id="Apply Leave Pop" class="w3-modal">
 						<div class="w3-modal-content w3-animate-zoom">
 							<div class="w3-container w3-black w3-display-container">
@@ -328,7 +339,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 								<h1>Apply Leave</h1>
 							</div>
 							<br>
-							<form method = "post" action = "LeaveSheetServlet">
+							<form method = "post" action = "ManagerLeaveSheetServlet">
 							<table align=center style="width: 65%">
 								<tr align=center>
 									<td>Category :</td>
@@ -351,19 +362,24 @@ html, body, h1, h2, h3, h4, h5, h6 {
 									<td>Reason :</td>
 									<td><input type="text" name="Reason" placeholder="">
 									</td>
+									<tr><td><input type = "hidden" name = "empid" value = "<%=emp%>"></td></tr>
+									
 								</tr>
 
-							</table>
-							</form>
 							<br>
 							<center>
 								<button type="submit" align=center class="w3-button w3-black ">Apply</button>
 							</center>
+							</form>
+							</table>
 						</div>
 
 					</div>
 				</div>
 			</div>
+
+
+
 
 			<div id="Leaves Remaining Pop" class="w3-modal">
 				<div class="w3-modal-content w3-animate-zoom">
@@ -489,6 +505,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 		<br><br>
 		
 		<table align=center style="width: 65%">
+		<form>
 		  <tr align = "center">
 		    <td>Project ID :</td>
 			<td><input list="projectid" name="projectid"> 
@@ -498,43 +515,17 @@ html, body, h1, h2, h3, h4, h5, h6 {
 			  <option value="TUP0003">
 			  <option value="TUP0004">
 			</datalist></td>
-			<td><button type="submit" align=center class="w3-button w3-black ">Submit</button></td>
+			<td><button type="submit" align=center class="w3-button w3-black" value = "submit">Submit</button></td>
 		  </tr>
+		  </form>
 		</table>
 		<br><br>
-		
-		<sql:query dataSource = "${dbSource}" var = "project" >
-           select  task_name , emp_id , num_of_hours , date  from time_sheet where emp_id = "<%= request.getAttribute("projectid") %>";
-      </sql:query>
+		 
+	<!-- 	<sql:query dataSource = "${dbSource}" var = "project" >
+           select  task_name , emp_id , num_of_hours , date  from time_sheet where project_id = "<%= request.getAttribute("projectid") %>";
+      </sql:query> -->
       
-      <center><fieldset style="width:50%">
-				<legend>Project Details</legend>
-				<div class="main-details">
-					<table border="0" class="" width="100%" cellspacing="0" cellpadding="0"> 
-					<c:forEach var="row" items="${project.rows}">
-						<thead>
-							<tr>
-								<th class="orange-gradient">Emp ID</th>
-								<th class="orange-gradient">Task </th>
-								<th class="orange-gradient">Hours Worked</th>
-								<th class="orange-gradient">Date</th>
-							</tr>
-						</thead>
-						
-						<tbody>
-						
-						<tr >
-						<td align="center"><c:out value="${row.emp_id}" /></td>	
-						<td align="center"><c:out value="${row.task_name}" /></td>
-						<td align="center"><c:out value="${row.num_of_hours}" /></td>
-						<td align="center"><c:out value="${row.date}" /></td>
-						</tr>
-											 
-						</tbody>
-						
-						</c:forEach>
-					</table> </div> 
-					</fieldset> </center>
+     
 		
 		</div>
 	</div>
