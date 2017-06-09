@@ -503,9 +503,9 @@ html, body, h1, h2, h3, h4, h5, h6 {
 				<h1>Project Details</h1>
 			</div>
 		<br><br>
-		
+				
 		<table align=center style="width: 65%">
-		<form>
+		<form method = "post" action = "ProjectIdServlet">
 		  <tr align = "center">
 		    <td>Project ID :</td>
 			<td><input list="projectid" name="projectid"> 
@@ -517,14 +517,53 @@ html, body, h1, h2, h3, h4, h5, h6 {
 			</datalist></td>
 			<td><button type="submit" align=center class="w3-button w3-black" value = "submit">Submit</button></td>
 		  </tr>
+		  
+		<!--   <
+		  String projectid = request.getParameter("projectid");
+		  Connection connection = null;
+		  Statement statement = null;
+		  Class.forName("com.mysql.jdbc.Driver");
+		  connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ems","root","root");
+		  statement.executeQuery(" select task_name , emp_id , num_of_hours , date from time_sheet where project_id = '"+projectid+"' ");
+		  out.println("working");
+		  %>
+		   	  -->
 		  </form>
 		</table>
+
+		
 		<br><br>
-		 
-	<!-- 	<sql:query dataSource = "${dbSource}" var = "project" >
-           select  task_name , emp_id , num_of_hours , date  from time_sheet where project_id = "<%= request.getAttribute("projectid") %>";
-      </sql:query> -->
+
       
+      
+     <!--  <center><fieldset style="width:50%">
+				<legend>Project Details</legend>
+				<div class="main-details">
+					<table border="0" class="" width="100%" cellspacing="0" cellpadding="0"> 
+					<c:forEach var="row" items="${project.rows}">
+						<thead>
+							<tr>
+							    <th class="orange-gradient">Emp ID</th>
+								<th class="orange-gradient">Task</th>
+								<th class="orange-gradient">Hours Worked</th>
+								<th class="orange-gradient">Date</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+						
+						<tr >
+						<td align="center"><c:out value="${row.emp_id}" /></td>
+						<td align="center"><c:out value="${row.task_name}" /></td>	
+						<td align="center"><c:out value="${row.num-of_hours}" /></td>
+						<td align="center"><c:out value="${row.date}" /></td>
+						</tr>
+											 
+						</tbody>
+						
+						</c:forEach>
+					</table> </div> 
+					</fieldset> </center>  -->
      
 		
 		</div>
