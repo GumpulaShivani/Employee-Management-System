@@ -101,6 +101,12 @@
         <button onclick="document.getElementById('PayRoll Pop').style.display='block'"  class="button" id="PayRoll">PayRoll</button>
 </div>
    
+   <%LoginBean currentUser = (LoginBean)(session.getAttribute("currentSessionUser")); %>
+   <!--  <= currentUser.getEmpID() %> -->
+   <% 
+   String emp = (String) session.getAttribute("empid");
+   %>
+   
 <!-- Register Form Pop -->
 <div id="Add Employee Pop" class="w3-modal">
   <div class="w3-modal-content w3-animate-zoom">
@@ -110,8 +116,9 @@
     </div>
    <br>
    
-   <table  align = "center">
    <form method = "post" action = "EmployeeRegisterServlet">
+   <table  align = "center">
+   
      <tr>
 	 <td>Employee ID :<hspace> </td>
 	 <td><input type="text" name="emp_id"  placeholder = "Eg.TU0001"></td>
@@ -195,7 +202,7 @@
 	 </tr>
 	 <tr>
 	 <td>Salary :</td>
-	 <td><input type="text" name="salary"  placeholder = "Enter Salary"></td>
+	 <td><input type="numeric" name="salary"  placeholder = "Enter Salary"></td>
 	 </tr>
 	 <tr>
 	
@@ -223,43 +230,51 @@
         <button onclick="document.getElementById('Apply Leave Pop').style.display='block'"  class="button" id="Apply Leave">Apply Leave</button><br> <br></center>
 
    
-<div id="Apply Leave Pop" class="w3-modal">
+<div id="Apply Leave Pop" class="w3-modal">+.
   <div class="w3-modal-content w3-animate-zoom">
     <div class="w3-container w3-black w3-display-container">
       <span onclick="document.getElementById('Apply Leave Pop').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
       <h1>Apply Leave</h1>
     </div>
    <br>
+   <form method = "post" action = "LeaveSheetServlet">
 <table align=center style="width:65%">
   <tr align = center>
     <td>Category :</td>
     <td><input list="category" name="category">
       <datalist id="category">
-       <option value="CL">
-       
+       <option value="cl">
+       <option value = "sl">
       </datalist>
    </td> 
 </tr>
 
 <tr>
  <td>From Date:</td>
- <td><input type="date" name="from_date"  placeholder = "dd/mm/yyyy">  </td>
+ <td><input type="text" name="from_date"  placeholder = "yyyy/mm/dd">  </td>
  <td>To Date:</td> 
-  <td><input type="date" name="to_date"  placeholder = "dd/mm/yyyy">  </td>
+  <td><input type="text" name="to_date"  placeholder = "yyyy//mm/dd">  </td>
 </tr>  
 <tr>
    <td>Reason	 :</td>
    <td><input type="text" name="Reason"  placeholder = "">  </td>
 </tr>
 
+<tr>
+<td><input type = "hidden" name = "empid" value = "<%=emp%>"></td>
+</tr>
+
 </table>
 <br>
 <center><button type="submit" align = center class="w3-button w3-black ">Apply</button> </center>
+</form>
+
 </div>
 
 </div>
 </div>
 </div>
+
 
  <div id="Leaves Remaining Pop" class="w3-modal">
   <div class="w3-modal-content w3-animate-zoom">
@@ -316,35 +331,40 @@
       <span onclick="document.getElementById('Leave History Pop').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
       <h2>Leave History</h2>
     </div>
-   <br><center><fieldset style="width:50%">
-				<legend>History / Summary</legend>
-				<div class="main-details">
-				
-	<div class="salesDashBoardDropDown">
-		<form action="" method="post" name="yearform">
-		<!--<div  style="float: left;padding-top:5px;">Quarter : </div>-->
-			<div>
-				<select name="year" id="year"  class="dropdown" style="width:150px;" onchange="this.form.submit();">
-										<option value = "2016">2016</option>
-												<option value = "2017" selected="selected">2017</option>
-												<option value = "2018">2018</option>
-											</select>
-			</div>
-		</form>
-	</div>
+   <br><br>
+   <sql:query dataSource = "${dbSource}" var = "leave" >
+           select  category , from_date , to_date from leave_sheet where emp_id = "<%= session.getAttribute("empid") %>";
+      </sql:query>
+      
+      <center><fieldset style="width:50%">
 				<legend>Leave History</legend>
-					<table border="0" width="100%" cellspacing="0" cellpadding="0"> 
+				<div class="main-details">
+					<table border="0" class="" width="100%" cellspacing="0" cellpadding="0"> 
+					<c:forEach var="row" items="${leave.rows}">
 						<thead>
 							<tr>
 								<th class="orange-gradient">Category</th>
 								<th class="orange-gradient">From Date</th>
 								<th class="orange-gradient">To Date</th>
-								
 							</tr>
-						</thead></table>
-                        </fieldset><br></center>
-                        </div>
-                        </div>
+						</thead>
+						
+						<tbody>
+						
+						<tr >
+						<td align="center"><c:out value="${row.category}" /></td>	
+						<td align="center"><c:out value="${row.from_date}" /></td>
+						<td align="center"><c:out value="${row.to_date}" /></td>
+						</tr>
+											 
+						</tbody>
+						
+						</c:forEach>
+					</table> </div> 
+					</fieldset> </center>
+			
+     </div>
+   </div>
                 
 
       
@@ -356,9 +376,79 @@
       <span onclick="document.getElementById('PayRoll Pop').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
       <h1>PayRoll</h1>
     </div>
-   <br>
-<center>CONGRATULATIONS.!</center>
-<br>
+     
+     
+     <sql:query dataSource = "${dbSource}" var = "salary" >
+           select  salary , ((salary*30)/100) as basic , ((((salary*30)/100)*40)/100) as hra , ((salary * 10)/100) as da , (((salary*30)/100) + ((((salary*30)/100)*40)/100) + ((salary * 10)/100)) as gross , (salary - (((salary*30)/100) + ((((salary*30)/100)*40)/100) + ((salary * 10)/100))) as oa , (((salary - ((((salary*30)/100)*40)/100) )*10)/100) as incometax , (salary - (((salary - ((((salary*30)/100)*40)/100) )*10)/100)) as netpay from employee where emp_id = "<%= session.getAttribute("empid") %>";
+      </sql:query> 
+      
+ <center>
+						<fieldset style="width: 70%">
+							<legend>Pay Slip</legend>
+							<div class="main-details">
+							<table width = "50%" border = "1">
+							 <thead>
+							<tr>
+							    <th class="orange-gradient">Type</th>
+							    <th class="orange-gradient">Amount</th>
+								
+							</tr>
+						</thead>
+								<c:forEach var="row" items="${salary.rows}">
+						
+						<tbody>
+						
+						<tr >
+						<th class="orange-gradient">Salary</th>
+						<td align="center"><c:out value="${row.salary}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Basic Salary</th>
+						<td align="center"><c:out value="${row.basic}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">HRA</th>
+						<td align="center"><c:out value="${row.hra}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">DA</th>
+						<td align="center"><c:out value="${row.da}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Gross Salary</th>
+						<td align="center"><c:out value="${row.gross}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Other Allowances</th>
+						<td align="center"><c:out value="${row.oa}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Income Tax</th>
+						<td align="center"><c:out value="${row.incometax}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Net Pay</th>
+						<td align="center"><c:out value="${row.netpay}" /></td>
+						</tr>
+						
+						
+											 
+						</tbody>
+						</c:forEach>									
+								
+								</table>
+							</div>
+						</fieldset>
+					</center>
+
+
 </div>
 </div>    
     

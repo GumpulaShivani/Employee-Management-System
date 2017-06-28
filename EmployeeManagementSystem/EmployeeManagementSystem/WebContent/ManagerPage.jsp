@@ -162,7 +162,14 @@ html, body, h1, h2, h3, h4, h5, h6 {
 								class="w3-button w3-display-topright w3-large">x</span>
 							<h1>Time Sheet</h1>
 						</div>
+						<%LoginBean currentUser = (LoginBean)(session.getAttribute("currentSessionUser")); %>
+   <!--  <= currentUser.getEmpID() %> -->
+   <% 
+   String emp = (String) session.getAttribute("empid");
+   %>
 						<br>
+						<form method = "post" action = "TimeSheetServlet">
+						
 						<table align=center style="width: 80%">
 							<tr align=center>
 								<td>Date :</td>
@@ -170,7 +177,8 @@ html, body, h1, h2, h3, h4, h5, h6 {
 								<td>Project ID :</td>
 								<td><input type="text" name="project_id"
 									placeholder="TUP00**"></td>
-
+								<td><input type = "hidden" name = "empid" value = "<%=emp%>"></td>
+   
 							</tr>
 						</table>
 
@@ -290,6 +298,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 						<center>
 							<button type="submit" align=center class="w3-button w3-black ">Submit</button>
 						</center>
+						</form>
 						<br>
 					</div>
 				</div>
@@ -302,7 +311,7 @@ html, body, h1, h2, h3, h4, h5, h6 {
 						<span
 							onclick="document.getElementById('Leave Management Pop').style.display='none'"
 							class="w3-button w3-display-topright w3-large">x</span>
-						<h1>Leave Managemenet</h1>
+						<h1>Leave Management</h1>
 					</div>
 					<br>
 					<center>
@@ -319,48 +328,55 @@ html, body, h1, h2, h3, h4, h5, h6 {
 					</center>
 
 
-					<div id="Apply Leave Pop" class="w3-modal">
-						<div class="w3-modal-content w3-animate-zoom">
-							<div class="w3-container w3-black w3-display-container">
-								<span
-									onclick="document.getElementById('Apply Leave Pop').style.display='none'"
-									class="w3-button w3-display-topright w3-large">x</span>
-								<h1>Apply Leave</h1>
-							</div>
-							<br>
-							<table align=center style="width: 65%">
-								<tr align=center>
-									<td>Category :</td>
-									<td><input list="category" name="category"> <datalist
-											id="category">
-											<option value="CL">
-										</datalist></td>
-								</tr>
 
-								<tr>
-									<td>From Date:</td>
-									<td><input type="date" name="from_date"
-										placeholder="dd/mm/yyyy"></td>
-									<td>To Date:</td>
-									<td><input type="date" name="to_date"
-										placeholder="dd/mm/yyyy"></td>
-								</tr>
-								<tr>
-									<td>Reason :</td>
-									<td><input type="text" name="Reason" placeholder="">
-									</td>
-								</tr>
 
-							</table>
-							<br>
-							<center>
-								<button type="submit" align=center class="w3-button w3-black ">Apply</button>
-							</center>
-						</div>
+<div id="Apply Leave Pop" class="w3-modal">+.
+  <div class="w3-modal-content w3-animate-zoom">
+    <div class="w3-container w3-black w3-display-container">
+      <span onclick="document.getElementById('Apply Leave Pop').style.display='none'" class="w3-button w3-display-topright w3-large">x</span>
+      <h1>Apply Leave</h1>
+    </div>
+   <br>
+   <form method = "post" action = "LeaveSheetServlet">
+<table align=center style="width:65%">
+  <tr align = center>
+    <td>Category :</td>
+    <td><input list="category" name="category">
+      <datalist id="category">
+       <option value="cl">
+       <option value = "sl">
+      </datalist>
+   </td> 
+</tr>
 
-					</div>
-				</div>
-			</div>
+<tr>
+ <td>From Date:</td>
+ <td><input type="text" name="from_date"  placeholder = "yyyy/mm/dd">  </td>
+ <td>To Date:</td> 
+  <td><input type="text" name="to_date"  placeholder = "yyyy//mm/dd">  </td>
+</tr>  
+<tr>
+   <td>Reason	 :</td>
+   <td><input type="text" name="Reason"  placeholder = "">  </td>
+</tr>
+
+<tr>
+<td><input type = "hidden" name = "empid" value = "<%=emp%>"></td>
+</tr>
+
+</table>
+<br>
+<center><button type="submit" align = center class="w3-button w3-black ">Apply</button> </center>
+</form>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+
 
 			<div id="Leaves Remaining Pop" class="w3-modal">
 				<div class="w3-modal-content w3-animate-zoom">
@@ -421,43 +437,41 @@ html, body, h1, h2, h3, h4, h5, h6 {
 					class="w3-button w3-display-topright w3-large">x</span>
 				<h2>Leave History</h2>
 			</div>
-			<br>
-			<center>
-				<fieldset style="width: 50%">
-					<legend>History / Summary</legend>
-					<div class="main-details">
-
-						<div class="salesDashBoardDropDown">
-							<form action="" method="post" name="yearform">
-								<!--<div  style="float: left;padding-top:5px;">Quarter : </div>-->
-								<div>
-									<select name="year" id="year" class="dropdown"
-										style="width: 150px;" onchange="this.form.submit();">
-										<option value="2016">2016</option>
-										<option value="2017" selected="selected">2017</option>
-										<option value="2018">2018</option>
-									</select>
-								</div>
-							</form>
-						</div>
-						<legend>Leave History</legend>
-						<table border="0" width="100%" cellspacing="0" cellpadding="0">
-							<thead>
-								<tr>
-									<th class="orange-gradient">Category</th>
-									<th class="orange-gradient">From Date</th>
-									<th class="orange-gradient">To Date</th>
-
-								</tr>
-							</thead>
-						</table>
-				</fieldset>
-				<br>
-			</center>
+			<br><br>
+			<sql:query dataSource = "${dbSource}" var = "leave" >
+           select  category , from_date , to_date from leave_sheet where emp_id = "<%= session.getAttribute("empid") %>";
+      </sql:query>
+      
+      <center><fieldset style="width:50%">
+				<legend>Leave History</legend>
+				<div class="main-details">
+					<table border="0" class="" width="100%" cellspacing="0" cellpadding="0"> 
+					<c:forEach var="row" items="${leave.rows}">
+						<thead>
+							<tr>
+								<th class="orange-gradient">Category</th>
+								<th class="orange-gradient">From Date</th>
+								<th class="orange-gradient">To Date</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+						
+						<tr >
+						<td align="center"><c:out value="${row.category}" /></td>	
+						<td align="center"><c:out value="${row.from_date}" /></td>
+						<td align="center"><c:out value="${row.to_date}" /></td>
+						</tr>
+											 
+						</tbody>
+						
+						</c:forEach>
+					</table> </div> 
+					</fieldset> </center>
+			
 		</div>
 	</div>
-	</div>
-	</div>
+
 
 
 	<!---PayRoll Pop-->
@@ -469,9 +483,80 @@ html, body, h1, h2, h3, h4, h5, h6 {
 					class="w3-button w3-display-topright w3-large">x</span>
 				<h1>PayRoll</h1>
 			</div>
-			<br>
-			<center>CONGRATULATIONS.!</center>
-			<br>
+			
+			
+			<sql:query dataSource = "${dbSource}" var = "salary" >
+           select  salary , ((salary*30)/100) as basic , ((((salary*30)/100)*40)/100) as hra , ((salary * 10)/100) as da , (((salary*30)/100) + ((((salary*30)/100)*40)/100) + ((salary * 10)/100)) as gross , (salary - (((salary*30)/100) + ((((salary*30)/100)*40)/100) + ((salary * 10)/100))) as oa , (((salary - ((((salary*30)/100)*40)/100) )*10)/100) as incometax , (salary - (((salary - ((((salary*30)/100)*40)/100) )*10)/100)) as netpay from employee where emp_id = "<%= session.getAttribute("empid") %>";
+      </sql:query> 
+      
+ <center>
+						
+							<fieldset style="width: 70%">
+							<legend>Pay Slip</legend>
+							<div class="main-details">
+							<table width = "50%" border = "1">
+							 <thead>
+							<tr>
+							    <th class="orange-gradient">Type</th>
+							    <th class="orange-gradient">Amount</th>
+								
+							</tr>
+						</thead>
+								<c:forEach var="row" items="${salary.rows}">
+						
+						<tbody>
+						
+						<tr >
+						<th class="orange-gradient">Salary</th>
+						<td align="center"><c:out value="${row.salary}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Basic Salary</th>
+						<td align="center"><c:out value="${row.basic}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">HRA</th>
+						<td align="center"><c:out value="${row.hra}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">DA</th>
+						<td align="center"><c:out value="${row.da}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Gross Salary</th>
+						<td align="center"><c:out value="${row.gross}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Other Allowances</th>
+						<td align="center"><c:out value="${row.oa}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Income Tax</th>
+						<td align="center"><c:out value="${row.incometax}" /></td>
+						</tr>
+						
+						<tr >
+						<th class="orange-gradient">Net Pay</th>
+						<td align="center"><c:out value="${row.netpay}" /></td>
+						</tr>
+						
+						
+											 
+						</tbody>
+						</c:forEach>	
+						</fieldset>								
+								<br><br>
+								</table>
+							</div>
+					</center>
+			
+			
 		</div>
 	</div>
 	
@@ -485,8 +570,78 @@ html, body, h1, h2, h3, h4, h5, h6 {
 					class="w3-button w3-display-topright w3-large">x</span>
 				<h1>Project Details</h1>
 			</div>
-			<br>
-			<br>
+		<br><br>
+				
+		<table align=center style="width: 65%">
+		<form method = "post" action = "ProjectIdServlet">
+		  <tr align = "center">
+		    <td>Project ID :</td>
+			<td><input list="projectid" name="projectid"> 
+			<datalist id="projectid">
+	     	  <option value="TUP0001">
+			  <option value="TUP0002">
+			  <option value="TUP0003">
+			  <option value="TUP0004">
+			</datalist></td>
+		  </tr>
+		  
+		  <tr align = "center">
+		    <td>Employee ID :</td>
+			<td><input type="text" name="empid"  placeholder = "">  </td>
+		  </tr>
+		  
+		  <tr>
+		  <td><button type="submit" align=center class="w3-button w3-black" value = "submit">Submit</button></td>
+		  </tr>
+		  
+		<!--   <
+		  String projectid = request.getParameter("projectid");
+		  Connection connection = null;
+		  Statement statement = null;
+		  Class.forName("com.mysql.jdbc.Driver");
+		  connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ems","root","root");
+		  statement.executeQuery(" select task_name , emp_id , num_of_hours , date from time_sheet where project_id = '"+projectid+"' ");
+		  out.println("working");
+		  %>
+		   	  -->
+		  </form>
+		</table>
+
+		
+		<br><br>
+
+      
+      
+     <!--  <center><fieldset style="width:50%">
+				<legend>Project Details</legend>
+				<div class="main-details">
+					<table border="0" class="" width="100%" cellspacing="0" cellpadding="0"> 
+					<c:forEach var="row" items="${project.rows}">
+						<thead>
+							<tr>
+							    <th class="orange-gradient">Emp ID</th>
+								<th class="orange-gradient">Task</th>
+								<th class="orange-gradient">Hours Worked</th>
+								<th class="orange-gradient">Date</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+						
+						<tr >
+						<td align="center"><c:out value="${row.emp_id}" /></td>
+						<td align="center"><c:out value="${row.task_name}" /></td>	
+						<td align="center"><c:out value="${row.num-of_hours}" /></td>
+						<td align="center"><c:out value="${row.date}" /></td>
+						</tr>
+											 
+						</tbody>
+						
+						</c:forEach>
+					</table> </div> 
+					</fieldset> </center>  -->
+     
+		
 		</div>
 	</div>
 
