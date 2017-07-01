@@ -25,12 +25,10 @@ section {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-black w3-card-2" id="myNavbar">
-<a href="#home" class="w3-bar-item w3-button w3-wide"><img src="oooo.png" width="60px" height="50px">TreYsta unS</a>    <!-- Right-sided navbar links -->    
+<a href="HomePage.html" class="w3-bar-item w3-button w3-wide"><img src="oooo.png" width="60px" height="50px">TreYsta unS</a>    <!-- Right-sided navbar links -->    
     <div class="w3-right w3-hide-small">
       <a href="HomePage.html" class="w3-bar-item w3-button">ABOUT</a>
-      <a href="Login.html.html" class="w3-bar-item w3-button">LOGIN</a>
-      
-      
+      <a href="Login.html" class="w3-bar-item w3-button">LOGIN</a>
       <a href="HomePage.html" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a>
     </div>
     <!-- Hide right-floated links on small screens and replace them with a menu icon -->
@@ -67,9 +65,15 @@ section {
     <td><input type="password" name="empPassword"></td>
     
   </tr>  
+  
+  </tr>
 </table>
 <br>
+<a href="ChangePassword.jsp">ChangePassword</a>
+<br>
 <center><button id="EmpLogin" type="submit" onclick="">Login</button></center>
+</form>
+
  </section></center><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
  <footer class="w3-container w3-black w3-center w3-margin-top">
   <i class="fa fa-facebook-official w3-hover-opacity"></i>
@@ -83,3 +87,13 @@ section {
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+

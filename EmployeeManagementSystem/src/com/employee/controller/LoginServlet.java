@@ -1,6 +1,7 @@
 package com.employee.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import com.employee.bean.LoginBean;
 import com.employee.dao.LoginDAO;
@@ -32,15 +33,19 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String emp_id = request.getParameter("empID");
 		String password = request.getParameter("empPassword");
 		//String project_id = request.getParameter("projectid");
+		PrintWriter out = response.getWriter();
 		 
 		LoginBean loginBean = new LoginBean();
 		 
@@ -53,6 +58,8 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
         session.setAttribute("empid" , emp_id );
         //session.setAttribute("projectid", project_id);
+        
+        
 		 
 		try
 		{
@@ -91,7 +98,10 @@ public class LoginServlet extends HttpServlet {
 		}
 		else
 		{
-		request.getRequestDispatcher("Login.jsp");
+			out.println("<script type=\"text/javascript\">"); 
+			out.println("alert(\"Username or password incorrect!!!\")"); 
+			out.println("</script>"); 
+			response.sendRedirect("Login.html");
 		}
 		}
 		catch (IOException e1)
