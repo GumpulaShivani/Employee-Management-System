@@ -55,8 +55,9 @@ Connection connection = null;
 			System.out.println(getSecurityQuestion());
 			System.out.println(getSecurityAnswer());
 			System.out.println(getNewPassword());
-			statement.executeUpdate(" update employee set security_question =  '"+getSecurityQuestion()+"' , security_answer =  '"+getSecurityAnswer()+"' , password = MD5('" + getNewPassword() + "') where emp_id = '"+empID+"' ");
-         
+			String question = getSecurityQuestion();
+			String answer = getSecurityAnswer();
+			statement.executeUpdate(" update employee set password = MD5('" + getNewPassword() + "') where emp_id = '"+empID+"' ");
 			System.out.println("executing");
 		}catch (SQLException e) {
 			// TODO Auto-generated catch block
